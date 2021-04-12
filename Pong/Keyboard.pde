@@ -5,9 +5,10 @@ void keyPressed() {
 
 //==== Menu Esc Func ====
 void menu_esc() {
-  if (keyCode == ESC) {
+  if (keyCode == ESC && mode != title) {
     key = 0;
     
-    mode = pmode.get(pmode.size()-1);
-    }
+    int lmode = pmode.get(pmode.size() - 1);
+    mode = lmode;
+  }
 }

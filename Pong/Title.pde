@@ -5,7 +5,7 @@ void title() {
   title_title(width/2, height/4);
   
   //-- Play Button --
-  rect_mode_button(400, 550, 200, 100, "Play", 0, 1);
+  rect_mode_button(400, 550, 200, 100, 15, "Play", 0, 1);
 }
 
 //==== Title ====

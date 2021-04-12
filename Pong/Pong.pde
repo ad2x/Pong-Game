@@ -73,6 +73,9 @@ void draw() {
       start();
       break;
   }
+  
+  //-- Testing -- 
+  
 }
 
 //==== Universal/General Functions ====
@@ -92,7 +95,7 @@ void levelui(float x, float y, int xp, int level) {
 }
 
 //-- Universal Rect. Button --
-void rect_mode_button(float x, float y, float dx, float dy, String name, int buttonN, int bmode) {
+void rect_mode_button(float x, float y, float dx, float dy, int curve, String name, int buttonN, int bmode) {
   pushMatrix();
   translate(x, y);
   
@@ -111,7 +114,7 @@ void rect_mode_button(float x, float y, float dx, float dy, String name, int but
   
   strokeWeight(10);
   
-  rect(-dx/2, -dy/2, dx, dy);
+  rect(-dx/2, -dy/2, dx, dy, curve, curve, curve, curve);
   
   //-- Text --
   
@@ -123,9 +126,9 @@ void rect_mode_button(float x, float y, float dx, float dy, String name, int but
     
   //-- Check --
   if (rectbuttons.get(buttonN) == 1) {
+    pmode.append(mode);
     mode = bmode;
     rectbuttons.set(buttonN, 0);
-    pmode.append(mode);
   }
   
   popMatrix();
