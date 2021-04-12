@@ -24,6 +24,14 @@ color LGrey = #A7A7A7;
 color LLGrey = #C6C6C6;
 color White = #FFFFFF;
 
+color DDBlue = #0e2433;
+color DBlue = #1c4966;
+color Blue = #296d98;
+color LBlue = #3792cb;
+color LLBlue = #45b6fe;
+
+color NBlue = #1F51FF;
+
 //==== Variables ====
 //== General ==
 //-- Fonts --
@@ -37,7 +45,6 @@ IntList rectbuttons;
 //-- Exp --
 int cexp;
 int clevel;
-
 
 //==== Setup ====
 void setup() {
@@ -79,20 +86,6 @@ void draw() {
 }
 
 //==== Universal/General Functions ====
-
-//-- Level UI --
-void levelui(float x, float y, int xp, int level) {
-  pushMatrix();
-  translate(x, y);
-  
-  fill(Grey);
-  stroke(DGrey);
-  strokeWeight(10);
-  
-  rect(0, 0, 200, 100);
-  
-  popMatrix();
-}
 
 //-- Universal Rect. Button --
 void rect_mode_button(float x, float y, float dx, float dy, int curve, String name, int buttonN, int bmode) {
