@@ -1,5 +1,8 @@
 void mouseReleased() {
   rectcheck_all();
+  
+  //Start Menu Buttons
+  multiplayer_button_check(0, 0);
 }
 
 //==== Universal Rect Check ====

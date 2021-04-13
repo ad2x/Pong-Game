@@ -11,6 +11,10 @@ int mode;
 
 final int title = 0;
 final int start = 1;
+final int settings = 2;
+final int skins = 3;
+final int play = 4;
+final int end = 5;
 
 //For the esc func, so I can just go back to the previous mode instead of making a big if else/switch function
 IntList pmode;
@@ -31,6 +35,8 @@ color LBlue = #3792cb;
 color LLBlue = #45b6fe;
 
 color NBlue = #1F51FF;
+color NBlue1 = #0F49FF;
+color NBlue2 = #033FFF;
 
 //==== Variables ====
 //== General ==
@@ -42,13 +48,14 @@ PFont menuFont;
 //I'm using an intlist to be able to connect buttons and their respective button checks
 IntList rectbuttons;
 
-//-- Exp --
-int cexp;
-int clevel;
+//-- Start Button Booleans --
+boolean multip_button;
 
 //==== Setup ====
 void setup() {
   size(800, 800, FX2D);
+  
+  noCursor();
   
   //-- Create Fonts --
   titleFont = createFont("Modular Amplitude.otf", 200);
@@ -70,7 +77,6 @@ void setup() {
 
 //==== Draw ====
 void draw() {
-  
   //-- Mode Framework --
   switch(mode) {
     case 0:
@@ -81,8 +87,7 @@ void draw() {
       break;
   }
   
-  //-- Testing -- 
-  
+  cursor(mouseX, mouseY);
 }
 
 //==== Universal/General Functions ====
