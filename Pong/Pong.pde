@@ -7,14 +7,20 @@
 import java.util.Arrays;
 
 //==== Mode Framework ====
+//Main
 int mode;
 
 final int title = 0;
 final int start = 1;
-final int settings = 2;
-final int skins = 3;
-final int play = 4;
-final int end = 5;
+final int game = 2;
+final int end = 3;
+final int settings = 4;
+
+//Game
+int game_mode;
+
+final int singleplayer = 0;
+final int multiplayer = 1;
 
 //For the esc func, so I can just go back to the previous mode instead of making a big if else/switch function
 IntList pmode;
@@ -66,7 +72,7 @@ void setup() {
   rectbuttons = new IntList();
   
   //Stands for "number of rect mode buttons"
-  int normb = 1;
+  int normb = 4;
   for (int i = 0; i < normb; i = i + 1) {
     rectbuttons.append(0);
   }
@@ -85,29 +91,60 @@ void draw() {
     case 1:
       start();
       break;
+    case 2:
+      game();
+      break;
+    case 3:
+      end();
+      break;
+    case 4:
+      options();
+      break;
   }
   
-  cursor(mouseX, mouseY);
+  cursor(mouseX, mouseY);  
 }
 
 //==== Universal/General Functions ====
 
 //-- Universal Rect. Button --
-void rect_mode_button(float x, float y, float dx, float dy, int curve, String name, int buttonN, int bmode) {
+void rect_mode_button(float x, float y, float dx, float dy, int curve, String name, int textSize, int buttonN, int m_mode, int g_mode, int colour) {
   pushMatrix();
   translate(x, y);
   
-  fill(White);
-  stroke(LLGrey);
+  switch(colour) {
+    case 0:
+      fill(White);
+      stroke(LLGrey);
+      break;
+    case 1:
+      fill(DDGrey);
+      stroke(NBlue);
+  }
   
   //-- Hover --
   if (mouseX > x - dx/2 && mouseX < x  + dx/2 && mouseY > y - dy/2 && mouseY < y + dy/2) {
-    stroke(LGrey);
+    
+    switch(colour) {
+      case 0:
+        stroke(LGrey);
+        break;
+      case 1:
+       stroke(NBlue1);
+       break;
+    }
     
     //-- Tactility
     if (mousePressed) {
-      stroke(Grey);
-    }
+      switch(colour) {
+        case 0:
+          stroke(Grey);
+          break;
+        case 1:
+          stroke(NBlue2);
+          break;
+      }
+     }
   }  
   
   strokeWeight(10);
@@ -116,17 +153,27 @@ void rect_mode_button(float x, float y, float dx, float dy, int curve, String na
   
   //-- Text --
   
-  fill(DDGrey);
-  textSize(55);
+  switch(colour) {
+    case 0:
+      fill(DDGrey);
+      break;
+    case 1:
+      fill(Grey);
+      break;
+  }
+
   textFont(menuFont);
+  textSize(textSize);
   
   text(name, 0, 0);
     
   //-- Check --
   if (rectbuttons.get(buttonN) == 1) {
     pmode.append(mode);
-    mode = bmode;
+    mode = m_mode;
     rectbuttons.set(buttonN, 0);
+    
+    game_mode = g_mode;
   }
   
   popMatrix();

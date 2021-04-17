@@ -9,6 +9,8 @@ void menu_esc() {
     key = 0;
     
     int lmode = pmode.get(pmode.size() - 1);
+    pmode.remove(pmode.get(pmode.size() - 1));
+    
     mode = lmode;
   }
 }
