@@ -22,6 +22,17 @@ int game_mode;
 final int singleplayer = 0;
 final int multiplayer = 1;
 
+//Pausing
+boolean paused;
+
+//==== Entity Variables ====
+float leftx, lefty, leftd, rightx, righty, rightd;
+float ballx, bally, balld, ballvx, ballvy;
+color ballstroke;
+
+//==== Keyboard Variables ====
+boolean wkey, skey, upkey, downkey;
+
 //For the esc func, so I can just go back to the previous mode instead of making a big if else/switch function
 IntList pmode;
 
@@ -43,6 +54,10 @@ color LLBlue = #45b6fe;
 color NBlue = #1F51FF;
 color NBlue1 = #0F49FF;
 color NBlue2 = #033FFF;
+color NBlueD = #160282;
+
+color NRed = #ff073a;
+color NRed1 = #b30529;
 
 //==== Variables ====
 //== General ==
@@ -79,6 +94,22 @@ void setup() {
   
   //-- Initialize pmode --
   pmode = new IntList();
+  
+  //-- Initialize Entity Variables --
+  leftx = 0;
+  lefty = height/2;
+  leftd = 200;
+  
+  rightx = width;
+  righty = height/2;
+  rightd = 200;
+  
+  ballx = width/2;
+  bally = height/2;
+  balld = 100;
+  
+  //-- Initialize Keyboard Variables
+  wkey = skey = upkey = downkey = false;
 }
 
 //==== Draw ====
@@ -166,6 +197,8 @@ void rect_mode_button(float x, float y, float dx, float dy, int curve, String na
   textSize(textSize);
   
   text(name, 0, 0);
+  
+  popMatrix();
     
   //-- Check --
   if (rectbuttons.get(buttonN) == 1) {
@@ -174,7 +207,30 @@ void rect_mode_button(float x, float y, float dx, float dy, int curve, String na
     rectbuttons.set(buttonN, 0);
     
     game_mode = g_mode;
+    
+    //Game stuff 
+    lefty = height/2;
+    righty = height/2;
+    ballx = width/2;
+    bally = height/2;
+    float startingside = random(-1, 1);
+    ballvy = 0;
+    if (startingside < 0) {
+      ballvx = 8;
+    } else {
+      ballvx = -8;
+    }
+    ballstroke = White;
   }
-  
-  popMatrix();
+}
+
+//-- Dotted Line -- 
+//I got this code from https://processing.org/discourse/beta/num_1219255354.html
+void dottedLine(float x1, float y1, float x2, float y2, float steps){
+ for(int i=0; i<=steps; i++) {
+   float x = lerp(x1, x2, i/steps);
+   float y = lerp(y1, y2, i/steps);
+   noStroke();
+   ellipse(x, y,7,7);
+ }
 }
