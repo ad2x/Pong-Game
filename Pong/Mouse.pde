@@ -3,7 +3,8 @@ void mouseReleased() {
     rectcheck_all();
   }
   
-  //Start Menu Buttons
+  //Ready Button
+  readybuttoncheck(300, 600, 0);
 }
 
 //==== Universal Rect Check ====

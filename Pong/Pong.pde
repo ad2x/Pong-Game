@@ -22,8 +22,16 @@ int game_mode;
 final int singleplayer = 0;
 final int multiplayer = 1;
 
-//Pausing
+int game_state;
+
+final int ready = 0;
+final int playing = 1;
+final int countdown = 2;
+
+//Pausing etc
 boolean paused;
+
+IntList ready_checks;
 
 //==== Entity Variables ====
 float leftx, lefty, leftd, rightx, righty, rightd;
@@ -72,6 +80,10 @@ IntList rectbuttons;
 //-- Start Button Booleans --
 boolean multip_button;
 
+//== Game ==
+int score1;
+int score2;
+
 //==== Setup ====
 void setup() {
   size(800, 800, FX2D);
@@ -85,6 +97,13 @@ void setup() {
   
   //-- Initialize rectbuttons --
   rectbuttons = new IntList();
+  
+  //-- Initialize Ready Buttons --
+  ready_checks = new IntList();
+  
+  for (int i = 0; i < 3; i = i + 1) {
+    ready_checks.append(0);
+  }
   
   //Stands for "number of rect mode buttons"
   int normb = 4;
@@ -207,12 +226,14 @@ void rect_mode_button(float x, float y, float dx, float dy, int curve, String na
     rectbuttons.set(buttonN, 0);
     
     game_mode = g_mode;
+    game_state = ready;
     
     //Game stuff 
     lefty = height/2;
     righty = height/2;
     ballx = width/2;
     bally = height/2;
+    
     float startingside = random(-1, 1);
     ballvy = 0;
     if (startingside < 0) {
@@ -220,7 +241,10 @@ void rect_mode_button(float x, float y, float dx, float dy, int curve, String na
     } else {
       ballvx = -8;
     }
+    
     ballstroke = White;
+    
+    paused = true;
   }
 }
 
