@@ -9,6 +9,11 @@ void mouseReleased() {
     readybuttoncheck(width/4 - 100, 600, 1);
     readybuttoncheck(3*width/4 - 100, 600, 2);
   }
+  
+  //Play Again Button
+  if (mode == end) {
+    playagaincheck(600, 650);
+  }
 }
 
 //==== Universal Rect Check ====

@@ -12,7 +12,7 @@ void keyReleased() {
 
 //==== Menu Esc Func ====
 void menu_esc() {
-  if (keyCode == ESC && mode != title) {
+  if (keyCode == ESC && mode != title && game_state != playing) {
     key = 0;
     
     int lmode = pmode.get(pmode.size() - 1);
@@ -21,6 +21,10 @@ void menu_esc() {
     mode = lmode;
     
     game_state = ready;
+  } else if (keyCode == ESC) {
+    key = 0;
+    
+    paused = !paused;
   }
 }
 

@@ -30,6 +30,14 @@ void game() {
   }
   
   gameend();
+  counterincrease();
+  
+  //Paused Effect
+  if (paused == true && game_state == playing) {
+    fill(Black, 60);
+    noStroke();
+    rect(0, 0, width, height);
+  }
 }
 
 //==== Paddles ====
@@ -75,9 +83,9 @@ void paddle(float x, float y, float d, boolean player) {
   
   if (game_mode == singleplayer && player == false && ballx < width) {
     if (abs(bally - righty) > 5) {
-      if (bally > righty && righty < height - d) {
+      if (bally > righty && righty < height - d && paused == false) {
         righty = righty + 5;
-      } else if (bally < righty && righty > d) {
+      } else if (bally < righty && righty > d && paused == false) {
         righty = righty - 5;
       }
     }
@@ -279,9 +287,20 @@ void countdowntimer(float x, float y, int time) {
 
 //==== Game End Check ====
 void gameend() {
-  if (score1 == 6 || score2 == 6) {
-    delay(500);
-    
+  if (counter == 24) {   
     mode = end;
+    counter = 0;
+    
+    if (score1 > score2) {
+      wonblue++;
+    } else {
+      wonred++;
+    }
+  }
+}
+
+void counterincrease() {
+  if (score1 == 1|| score2 == 1) {
+    counter++;
   }
 }

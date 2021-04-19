@@ -35,6 +35,8 @@ IntList ready_checks;
 
 boolean countdown;
 
+int counter;
+
 //==== Entity Variables ====
 float leftx, lefty, leftd, rightx, righty, rightd;
 float ballx, bally, balld, ballvx, ballvy;
@@ -85,6 +87,9 @@ boolean multip_button;
 //== Game ==
 int score1;
 int score2;
+
+int wonblue;
+int wonred;
 
 int timer;
 int secondsleft;
@@ -156,7 +161,7 @@ void draw() {
       options();
       break;
   }
-  if (game_state != playing) {
+  if (game_state != playing || mode != game) {
     cursor(mouseX, mouseY);  
   }
 }
@@ -226,7 +231,6 @@ void rect_mode_button(float x, float y, float dx, float dy, int curve, String na
   popMatrix();
     
   //-- Check --
-  //I sort of just shoved every variable I want to be changed when entering or leaving the game in here
   if (rectbuttons.get(buttonN) == 1) {
     pmode.append(mode);
     mode = m_mode;
@@ -235,29 +239,7 @@ void rect_mode_button(float x, float y, float dx, float dy, int curve, String na
     game_mode = g_mode;
     game_state = ready;
     
-    //Game stuff 
-    lefty = height/2;
-    righty = height/2;
-    ballx = width/2;
-    bally = height/2;
-    
-    float startingside = random(-1, 1);
-    ballvy = 0;
-    if (startingside < 0) {
-      ballvx = 8;
-    } else {
-      ballvx = -8;
-    }
-    
-    ballstroke = White;
-    
-    paused = true;
-    
-    score1 = 0;
-    score2 = 0;
-    
-    countdown = false;
-    timer = 0;
+    variabledump();
   }
 }
 
@@ -268,6 +250,33 @@ void dottedLine(float x1, float y1, float x2, float y2, float steps){
    float x = lerp(x1, x2, i/steps);
    float y = lerp(y1, y2, i/steps);
    noStroke();
-   ellipse(x, y,7,7);
+   ellipse(x, y, 7, 7);
  }
+}
+
+//I sort of just shoved every variable I want to be changed when entering or leaving the game in here
+//-- Variable Dump --
+void variabledump() {
+  lefty = height/2;
+  righty = height/2;
+  ballx = width/2;
+  bally = height/2;
+  
+  float startingside = random(-1, 1);
+  ballvy = 0;
+  if (startingside < 0) {
+    ballvx = 8;
+  } else {
+    ballvx = -8;
+  }
+  
+  ballstroke = White;
+  
+  paused = true;
+  
+  score1 = 0;
+  score2 = 0;
+  
+  countdown = false;
+  timer = 0;
 }
