@@ -19,9 +19,17 @@ void game() {
     if (game_mode == singleplayer) {
       readybutton(300, 600, 0);
     } else {
-      
+      readybutton(width/4 - 100, 600, 1);
+      readybutton(3*width/4 - 100, 600, 2);
     }
   }
+  
+  //Timer
+  if (countdown == true) {
+    countdowntimer(width/2, height/4, timer);
+  }
+  
+  gameend();
 }
 
 //==== Paddles ====
@@ -49,27 +57,27 @@ void paddle(float x, float y, float d, boolean player) {
   
   //Movement
   if (player == true) {
-    if (wkey == true  && lefty > leftd/2) lefty = lefty - 7;
-    if (skey == true  && lefty < height - leftd/2) lefty = lefty + 7;
+    if (wkey == true  && lefty > leftd) lefty = lefty - 7;
+    if (skey == true  && lefty < height - leftd) lefty = lefty + 7;
     
     if (upkey == true) {
       if (game_mode == 1) {
-        if (righty > rightd/2) righty = righty - 7;
+        if (righty > rightd) righty = righty - 7;
       }
     }
     
     if (downkey == true) {
       if (game_mode == 1) {
-        if (righty < height - rightd/2) righty = righty + 7;
+        if (righty < height - rightd) righty = righty + 7;
       }
     }
   }
   
   if (game_mode == singleplayer && player == false && ballx < width) {
     if (abs(bally - righty) > 5) {
-      if (bally > righty && righty < height - d/2) {
+      if (bally > righty && righty < height - d) {
         righty = righty + 5;
-      } else if (bally < righty && righty > d/2) {
+      } else if (bally < righty && righty > d) {
         righty = righty - 5;
       }
     }
@@ -109,6 +117,12 @@ void ball(float x, float y, float d) {
   bally = bally + ballvy;
   }
   
+  if (bally < d/2 - 50) {
+    bally = d/2;
+  } else if (bally > height - d/2 + 50) {
+    bally = height - d/2;
+  }
+  
   //Scoring
   if (ballx < -d) {
     ballx = width/2;
@@ -117,6 +131,13 @@ void ball(float x, float y, float d) {
     ballvx = 8;
     
     score2++;
+    
+    timer = second() + minute()*60;
+    countdown = true;
+    
+    paused = true;
+    
+    wkey = skey = downkey = upkey = false;
   } else if (ballx > width + d) {
     ballx = width/2;
     bally = height/2;
@@ -124,6 +145,13 @@ void ball(float x, float y, float d) {
     ballvx = -8;
     
     score1++;
+    
+    timer = second() + minute()*60;
+    countdown = true;
+    
+    paused = true;
+    
+    wkey = skey = downkey = upkey = false;
   }
 }
 
@@ -139,21 +167,29 @@ void divider() {
 void readybutton(float x, float y, int ready_check) {
   pushMatrix();
   translate(x, y);
-    
-  if (ready_checks.get(ready_check) == 1) {
-    stroke(#09f311);
-  } else {
-    stroke(White);
-  }
   
   fill(DGrey);
   
-  rect(0, 0, 200, 100);
+  stroke(White);
+  
+  if (mouseX > x && mouseX < x + 200 && mouseY > y && mouseY < y + 100) {
+    stroke(#09f311);
+  }
   
   if (ready_checks.get(ready_check) == 1) {
+    stroke(#02DE07);
+  }
+  
+  rect(0, 0, 200, 100);
+  
+  fill(White);
+  
+  if (mouseX > x && mouseX < x + 200 && mouseY > y && mouseY < y + 100) {
     fill(#09f311);
-  } else {
-    fill(White);
+  }
+  
+  if (ready_checks.get(ready_check) == 1) {
+    fill(#02DE07);
   }
   
   textFont(menuFont);
@@ -164,10 +200,17 @@ void readybutton(float x, float y, int ready_check) {
   popMatrix();
   
   //Button functionality
-  if (ready_checks.get(ready_check) == 1) {
+  if (ready_checks.get(0) == 1 && game_mode == singleplayer) {
     game_state = playing;
     paused = false;
-    ready_checks.set(ready_check, 0);
+    ready_checks.set(0, 0);
+  }
+  
+  if (ready_checks.get(1) == 1 && ready_checks.get(2) == 1 && game_mode == multiplayer) {
+    game_state = playing;
+    paused = false;
+    ready_checks.set(1, 0);
+    ready_checks.set(2, 0);
   }
 }
 
@@ -177,7 +220,7 @@ void readybuttoncheck(float x, float y, int ready_check) {
       ready_checks.set(ready_check, 1);
     } else {
       ready_checks.set(ready_check, 0);
-    }
+    }    
   }
 }
 
@@ -193,4 +236,52 @@ void scorecounter(float x, float y, int score) {
   text(score, 0, 0);
     
   popMatrix();
+}
+
+//==== Countdown ====
+void countdowntimer(float x, float y, int time) {
+  pushMatrix();
+  translate(x, y);
+  
+  fill(DDGrey, 90);
+  textFont(titleFont);
+  textSize(300);
+  
+  int secondsleft = time - (second() + minute() * 60) + 3;
+  
+  text(secondsleft, 0, 0);
+  
+  popMatrix();
+  
+  //End timer
+  if (secondsleft == 0) {
+    countdown = false;
+    paused = false;
+  }
+  
+  //Not really related to the timer itself but needs to only happen while the timer is called
+  if (abs(height/2 - lefty) > 8) {
+    if (lefty < height/2) {
+      lefty = lefty + 8;
+    } else if (lefty > height/2) {
+      lefty = lefty - 8;
+    }
+  }
+  
+  if (abs(height/2 - righty) > 8) {
+    if (righty < height/2) {
+      righty = righty + 8;
+    } else if (righty > height/2) {
+      righty = righty - 8;
+    }
+  }
+}
+
+//==== Game End Check ====
+void gameend() {
+  if (score1 == 6 || score2 == 6) {
+    delay(500);
+    
+    mode = end;
+  }
 }

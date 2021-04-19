@@ -19,6 +19,8 @@ void menu_esc() {
     pmode.remove(pmode.get(pmode.size() - 1));
     
     mode = lmode;
+    
+    game_state = ready;
   }
 }
 

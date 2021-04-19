@@ -4,7 +4,11 @@ void mouseReleased() {
   }
   
   //Ready Button
-  readybuttoncheck(300, 600, 0);
+  if (mode == game && game_state == ready) {
+    readybuttoncheck(300, 600, 0);
+    readybuttoncheck(width/4 - 100, 600, 1);
+    readybuttoncheck(3*width/4 - 100, 600, 2);
+  }
 }
 
 //==== Universal Rect Check ====

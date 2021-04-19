@@ -26,12 +26,14 @@ int game_state;
 
 final int ready = 0;
 final int playing = 1;
-final int countdown = 2;
+final int paused_state = 2;
 
 //Pausing etc
 boolean paused;
 
 IntList ready_checks;
+
+boolean countdown;
 
 //==== Entity Variables ====
 float leftx, lefty, leftd, rightx, righty, rightd;
@@ -83,6 +85,9 @@ boolean multip_button;
 //== Game ==
 int score1;
 int score2;
+
+int timer;
+int secondsleft;
 
 //==== Setup ====
 void setup() {
@@ -151,8 +156,9 @@ void draw() {
       options();
       break;
   }
-  
-  cursor(mouseX, mouseY);  
+  if (game_state != playing) {
+    cursor(mouseX, mouseY);  
+  }
 }
 
 //==== Universal/General Functions ====
@@ -220,6 +226,7 @@ void rect_mode_button(float x, float y, float dx, float dy, int curve, String na
   popMatrix();
     
   //-- Check --
+  //I sort of just shoved every variable I want to be changed when entering or leaving the game in here
   if (rectbuttons.get(buttonN) == 1) {
     pmode.append(mode);
     mode = m_mode;
@@ -245,6 +252,12 @@ void rect_mode_button(float x, float y, float dx, float dy, int curve, String na
     ballstroke = White;
     
     paused = true;
+    
+    score1 = 0;
+    score2 = 0;
+    
+    countdown = false;
+    timer = 0;
   }
 }
 
