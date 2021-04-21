@@ -13,6 +13,10 @@ import java.util.Arrays;
 //1-3b
 //April 8 2021
 
+//Sound effects from zapsplat.com
+
+//Btw I know the 2 player mode having two ready buttons makes no sense but I left it because it was neat
+
 //Minim
 Minim minim;
 AudioPlayer bounce;
