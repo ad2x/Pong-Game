@@ -38,6 +38,9 @@ void game() {
     noStroke();
     rect(0, 0, width, height);
   }
+  
+  //Exit Button
+  exitbutton(50, 50);
 }
 
 //==== Paddles ====
@@ -132,8 +135,13 @@ void ball(float x, float y, float d) {
     bounce.rewind(); 
     bounce.play();
     
-    ballvx = (ballx - leftx)/speed[game_difficulty];
-    ballvy = (bally - lefty)/speed[game_difficulty];
+    if (game_mode == singleplayer) {
+      ballvx = (ballx - leftx)/speed[game_difficulty];
+      ballvy = (bally - lefty)/speed[game_difficulty];
+    } else {
+      ballvx = (ballx - leftx)/speed[hard];
+      ballvy = (bally - lefty)/speed[hard];
+    }
   }
   
   if (dist(ballx, bally, rightx, righty) <= (balld + rightd)/2) {
@@ -141,8 +149,13 @@ void ball(float x, float y, float d) {
     bounce.rewind(); 
     bounce.play();
     
-    ballvx = (ballx - rightx)/speed[game_difficulty];
-    ballvy = (bally - righty)/speed[game_difficulty];
+    if (game_mode == singleplayer) {
+      ballvx = (ballx - rightx)/speed[game_difficulty];
+      ballvy = (bally - righty)/speed[game_difficulty];
+    } else {
+      ballvx = (ballx - rightx)/speed[hard];
+      ballvy = (bally - righty)/speed[hard];
+    }
   }
   
   if (paused == false) {
@@ -177,6 +190,9 @@ void ball(float x, float y, float d) {
     paused = true;
     
     wkey = skey = downkey = upkey = false;
+    
+    score.rewind();
+    score.play();
   } else if (ballx > width + d) {
     ballx = width/2;
     bally = height/2;
@@ -191,6 +207,9 @@ void ball(float x, float y, float d) {
     paused = true;
     
     wkey = skey = downkey = upkey = false;
+    
+    score.rewind();
+    score.play();
   }
 }
 
@@ -347,5 +366,34 @@ void gameend() {
 void counterincrease() {
   if (score1 == 3|| score2 == 3) {
     counter++;
+  }
+}
+
+//==== Exit Button ====
+void exitbutton(float x, float y) {
+  if (paused == true && game_state == playing && countdown == false) {
+    pushMatrix();
+    translate(x, y);
+    
+    stroke(White);
+    strokeWeight(20);
+        
+    if (mouseX > x - 15 && mouseX < x + 15 && mouseY > y - 15 && mouseY < y + 15) {
+      stroke(Black);
+      if (mousePressed == true) {
+        stroke(DDGrey);
+      }
+    }
+    
+    line(-15, -15, 15, 15);
+    line(-15, 15, 15, -15);
+    
+    popMatrix();
+  }
+}
+
+void exitfunc(float x, float y) {
+  if (mouseX > x - 15 && mouseX < x + 15 && mouseY > y - 15 && mouseY < y + 15 && game_state == playing && paused == true && mode == game && countdown == false) {
+    mode = start;
   }
 }

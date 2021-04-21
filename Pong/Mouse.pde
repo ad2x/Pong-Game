@@ -14,6 +14,14 @@ void mouseReleased() {
   if (mode == end) {
     playagaincheck(600, 650);
   }
+  
+  //Difficulty Settings
+  difficulty_select(100, 150, 166.67, 166.67, easy);
+  difficulty_select(316.67, 150, 166.67, 166.67, normal);
+  difficulty_select(533.34, 150, 166.67, 166.67, hard);
+  
+  //Exit Button
+  exitfunc(50, 50);
 }
 
 //==== Universal Rect Check ====

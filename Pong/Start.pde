@@ -4,7 +4,7 @@ void start() {
   //Buttons 
   rect_mode_button(300, 200, 275, 105, 5, "2 Player", 40, 1, 2, 1, 1);
   rect_mode_button(500, 410, 275, 105, 5, "Singleplayer", 35, 2, 2, 0, 1);
-  rect_mode_button(300, 620, 275, 105, 5, "Settings", 42, 3, 4, 2, 1);
+  rect_mode_button(300, 620, 275, 105, 5, "Difficulty + Stats", 25, 3, 4, 2, 1);
   
   border();
 }

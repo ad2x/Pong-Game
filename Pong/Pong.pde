@@ -100,10 +100,10 @@ color Green = #4a6b46;
 color LGreen = #567d51;
 color LLGreen = #628e5d;
 
-color DYellow = #FFFF00;
-color Yellow = #FFFF00;
-color LYellow = #FFFF33;
-color LLYellow = #FFFF66;
+color DYellow = #CECB00;
+color Yellow = #E8E500;
+color LYellow = #EDEA00;
+color LLYellow = #FAF600;
 
 color DRed = #933b27;
 color Red = #b04632;
@@ -144,6 +144,7 @@ void setup() {
   button = minim.loadFile("button.mp3");
   readyeffect = minim.loadFile("ready.mp3");
   theme = minim.loadFile("theme.mp3");
+  score = minim.loadFile("score.mp3");
   
   int volume = -35;
   
@@ -152,6 +153,7 @@ void setup() {
   endeffect.setGain(volume);
   button.setGain(volume);
   readyeffect.setGain(volume);
+  score.setGain(volume);
   
   size(800, 800, FX2D);
   
@@ -228,7 +230,7 @@ void draw() {
       options();
       break;
   }
-  if (game_state != playing || mode != game) {
+  if (game_state != playing || mode != game || (mode == game && game_state == playing && paused == true)) {
     cursor(mouseX, mouseY);  
   }
   
